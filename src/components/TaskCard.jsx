@@ -1,47 +1,7 @@
-import React from 'react';
+import { getStatusClass, formatDateLabel, isOverdue } from '../utils/taskHelpers';
 
 export default function TaskCard({ task, onEdit, onDelete }) {
-  const getStatusClass = (status) => {
-    switch (status) {
-      case 'Pending': return 'pending';
-      case 'In Progress': return 'progress';
-      case 'Completed': return 'completed';
-      default: return '';
-    }
-  };
-
-  // move dueDate to utils
-  const formatDateLabel = (dateStr) => {
-    if (!dateStr) return '';
-    const dateObj = new Date(dateStr);
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const taskDate = new Date(dateObj);
-    taskDate.setHours(0, 0, 0, 0);
-
-    const diffTime = taskDate.getTime() - today.getTime();
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-    if (diffDays === 0) return 'Today';
-    if (diffDays === 1) return 'Tomorrow';
-    if (diffDays === -1) return 'Yesterday';
-
-    return dateObj.toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric'
-    });
-  };
-
-  // movedueDate to utils
-  const isOverdue = () => {
-    if (task.status === 'Completed') return false;
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const dueDateObj = new Date(task.dueDate);
-    dueDateObj.setHours(0, 0, 0, 0);
-    return dueDateObj < today;
-  };
+  const overdue = isOverdue(task.dueDate, task.status);
 
   return (
     <div className={`task-card ${getStatusClass(task.status)}`}>
@@ -56,11 +16,11 @@ export default function TaskCard({ task, onEdit, onDelete }) {
       </div>
 
       <div className="task-footer">
-        <div className={`task-date ${isOverdue() ? 'overdue' : ''}`} style={isOverdue() ? { color: 'var(--danger)', fontWeight: '600' } : {}}>
+        <div className={`task-date ${overdue ? 'overdue' : ''}`} style={overdue ? { color: 'var(--danger)', fontWeight: '600' } : {}}>
           <span>📅</span>
           <span>
             {formatDateLabel(task.dueDate)}
-            {isOverdue() && ' (Overdue)'}
+            {overdue && ' (Overdue)'}
           </span>
         </div>
 
