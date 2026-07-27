@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function Navigation({ currentRoute, onNavigate }) {
   const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'light');
@@ -8,9 +8,9 @@ export default function Navigation({ currentRoute, onNavigate }) {
     localStorage.setItem('theme', theme);
   }, [theme]);
 
-  const toggleTheme = () => {
-    setTheme(prev => prev === 'dark' ? 'light' : 'dark');
-  };
+  // const toggleTheme = () => {
+  //   setTheme(prev => prev === 'dark' ? 'light' : 'dark');
+  // };
 
   return (
     <nav className="sidebar">
