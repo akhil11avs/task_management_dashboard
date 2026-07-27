@@ -1,8 +1,6 @@
 import React from 'react';
 
 export default function TaskCard({ task, onEdit, onDelete }) {
-  // TODO: move dueDate formatting function to utils folder and export
-  // define in comstant and keep in utils for getStatusClass 
   const getStatusClass = (status) => {
     switch (status) {
       case 'Pending': return 'pending';

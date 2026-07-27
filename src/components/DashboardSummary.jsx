@@ -4,7 +4,6 @@ import { TaskContext } from '../context/TaskContext';
 export default function DashboardSummary() {
   const { tasks } = useContext(TaskContext);
 
-  // move inside hook called TaskContext
   const total = tasks.length;
   const pending = tasks.filter(t => t.status === 'Pending').length;
   const inProgress = tasks.filter(t => t.status === 'In Progress').length;
