@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from 'react';
+import { useContext, useMemo } from 'react';
 import { TaskContext } from '../context/TaskContext';
 import TaskCard from './TaskCard';
 
@@ -15,23 +15,18 @@ export default function TaskList({ currentRoute, onEditTask, onDeleteTask }) {
 
   const isCompletedRoute = currentRoute === '/completed';
 
-  // Apply routing, filtering, search, and sorting
-  // use memo to prevent unnecessary re-renders
   const filteredTasks = useMemo(() => {
     return tasks
       .filter(task => {
-        // 1. Route filter
         if (isCompletedRoute) {
           return task.status === 'Completed';
         }
-        // 2. Status filter (only applicable on All Tasks view)
         if (statusFilter !== 'All') {
           return task.status === statusFilter;
         }
         return true;
       })
       .filter(task => {
-        // 3. Search query filter
         if (!searchQuery.trim()) return true;
         const query = searchQuery.toLowerCase();
         const matchTitle = task.title.toLowerCase().includes(query);
@@ -39,7 +34,6 @@ export default function TaskList({ currentRoute, onEditTask, onDeleteTask }) {
         return matchTitle || matchDesc;
       })
       .sort((a, b) => {
-        // 4. Sort by due date
         const dateA = new Date(a.dueDate || '9999-12-31');
         const dateB = new Date(b.dueDate || '9999-12-31');
         if (sortBy === 'dueDateAsc') {
@@ -53,7 +47,6 @@ export default function TaskList({ currentRoute, onEditTask, onDeleteTask }) {
   return (
     <div>
       <div className="controls-bar">
-        {/* Search */}
         <div className="search-container">
           <span className="search-icon">🔍</span>
           <input
@@ -73,7 +66,6 @@ export default function TaskList({ currentRoute, onEditTask, onDeleteTask }) {
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
             >
-              {/* map from constant status data instead of hardcoding */}
               <option value="All">All Statuses</option>
               <option value="Pending">Pending</option>
               <option value="In Progress">In Progress</option>
@@ -89,7 +81,6 @@ export default function TaskList({ currentRoute, onEditTask, onDeleteTask }) {
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
           >
-            {/* map from constant sort options instead of hardcoding */}
             <option value="dueDateAsc">Due Date: Soonest</option>
             <option value="dueDateDesc">Due Date: Latest</option>
           </select>

@@ -1,4 +1,4 @@
-import React, { useState, useContext, useCallback } from 'react';
+import { useState, useContext, useCallback } from 'react';
 import { usePathRoute } from './hooks/usePathRoute';
 import Navigation from './components/Navigation';
 import DashboardSummary from './components/DashboardSummary';
@@ -13,7 +13,7 @@ export default function App() {
   const { deleteTask } = useContext(TaskContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [taskToEdit, setTaskToEdit] = useState(null);
-  
+
   // Custom Delete confirmation modal state
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [taskToDelete, setTaskToDelete] = useState(null);
@@ -77,12 +77,12 @@ export default function App() {
               {isCompletedRoute ? 'Completed Tasks' : 'All Workspace Tasks'}
             </h1>
             <p>
-              {isCompletedRoute 
-                ? 'Review and manage your successfully finished milestones.' 
+              {isCompletedRoute
+                ? 'Review and manage your successfully finished milestones.'
                 : 'Monitor, organize, and prioritize your active flow.'}
             </p>
           </div>
-          
+
           <button className="btn-primary" onClick={handleCreateClick}>
             <span>✚</span> Create Task
           </button>
@@ -92,17 +92,17 @@ export default function App() {
         <DashboardSummary />
 
         {/* Tasks grid with search/filter/sort */}
-        <TaskList 
-          currentRoute={route} 
-          onEditTask={handleEditClick} 
-          onDeleteTask={handleDeleteRequest} 
+        <TaskList
+          currentRoute={route}
+          onEditTask={handleEditClick}
+          onDeleteTask={handleDeleteRequest}
         />
 
         {/* Create/Edit Task Dialog Form */}
-        <TaskFormModal 
-          isOpen={isModalOpen} 
-          onClose={handleCloseModal} 
-          taskToEdit={taskToEdit} 
+        <TaskFormModal
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+          taskToEdit={taskToEdit}
         />
 
         {/* Custom Delete Confirmation Modal */}

@@ -1,17 +1,16 @@
-import React, { useState, useEffect, useContext, useCallback } from 'react';
+import { useState, useEffect, useContext, useCallback } from 'react';
 import { TaskContext } from '../context/TaskContext';
 
 export default function TaskFormModal({ isOpen, onClose, taskToEdit }) {
   const { addTask, updateTask } = useContext(TaskContext);
 
-  // Single consolidated form state
   const [formData, setFormData] = useState({
     title: '',
     description: '',
     status: 'Pending',
     dueDate: ''
   });
-  
+
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
 
