@@ -1,4 +1,4 @@
-import { useState, useContext, useCallback } from 'react';
+import { useState, useContext, useCallback, useMemo } from 'react';
 import { usePathRoute } from './hooks/usePathRoute';
 import Navigation from './components/Navigation';
 import DashboardSummary from './components/DashboardSummary';
@@ -7,6 +7,8 @@ import TaskFormModal from './components/TaskFormModal';
 import DeleteConfirmModal from './components/DeleteConfirmModal';
 import { TaskContext } from './context/TaskContext';
 import { ROUTES } from './utils/constants';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function App() {
   const { route, navigate } = usePathRoute();
@@ -24,14 +26,9 @@ export default function App() {
     setIsModalOpen(true);
   }, []);
 
-  const handleCreateClick = useCallback(() => {
+  const handleCreateAndCloseModal = useCallback(() => {
     setTaskToEdit(null);
-    setIsModalOpen(true);
-  }, []);
-
-  const handleCloseModal = useCallback(() => {
-    setIsModalOpen(false);
-    setTaskToEdit(null);
+    setIsModalOpen(prev => !prev);
   }, []);
 
   const handleDeleteRequest = useCallback((task) => {
@@ -53,16 +50,16 @@ export default function App() {
   }, []);
 
   // Switch-case evaluator for paths
-  const getIsCompletedRoute = useCallback((currentRoute) => {
+  const getIsCompletedRoute = (currentRoute) => {
     switch (currentRoute) {
       case ROUTES.COMPLETED:
         return true;
       default:
         return false;
     }
-  }, []);
+  };
 
-  const isCompletedRoute = getIsCompletedRoute(route);
+  const isCompletedRoute = useMemo(() => getIsCompletedRoute(route), [route]);
 
   return (
     <div className="app-container">
@@ -83,7 +80,7 @@ export default function App() {
             </p>
           </div>
 
-          <button className="btn-primary" onClick={handleCreateClick}>
+          <button className="btn-primary" onClick={handleCreateAndCloseModal}>
             <span>✚</span> Create Task
           </button>
         </div>
@@ -101,7 +98,7 @@ export default function App() {
         {/* Create/Edit Task Dialog Form */}
         <TaskFormModal
           isOpen={isModalOpen}
-          onClose={handleCloseModal}
+          onClose={handleCreateAndCloseModal}
           taskToEdit={taskToEdit}
         />
 
@@ -112,6 +109,9 @@ export default function App() {
           onConfirm={handleConfirmDelete}
           taskTitle={taskToDelete ? taskToDelete.title : ''}
         />
+
+        {/* Global Toast Notification Container */}
+        <ToastContainer position="top-right" autoClose={2500} theme="light" />
       </main>
     </div>
   );

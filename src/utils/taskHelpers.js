@@ -1,8 +1,10 @@
+import { STATUS } from "./constants";
+
 export const getStatusClass = (status) => {
   switch (status) {
-    case 'Pending': return 'pending';
-    case 'In Progress': return 'progress';
-    case 'Completed': return 'completed';
+    case STATUS.PENDING: return 'pending';
+    case STATUS.IN_PROGRESS: return 'progress';
+    case STATUS.COMPLETED: return 'completed';
     default: return '';
   }
 };
@@ -22,15 +24,15 @@ export const formatDateLabel = (dateStr) => {
   if (diffDays === 1) return 'Tomorrow';
   if (diffDays === -1) return 'Yesterday';
 
-  return dateObj.toLocaleDateString('en-US', { 
-    month: 'short', 
-    day: 'numeric', 
-    year: 'numeric' 
+  return dateObj.toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric'
   });
 };
 
 export const isOverdue = (dueDate, status) => {
-  if (status === 'Completed') return false;
+  if (status === STATUS.COMPLETED) return false;
   if (!dueDate) return false;
   const today = new Date();
   today.setHours(0, 0, 0, 0);

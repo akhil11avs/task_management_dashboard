@@ -3,11 +3,18 @@ export const ROUTES = {
   COMPLETED: '/completed'
 };
 
+export const STATUS = {
+  ALL: 'All',
+  PENDING: 'Pending',
+  IN_PROGRESS: 'In Progress',
+  COMPLETED: 'Completed'
+};
+
 export const STATUS_OPTIONS = [
-  { value: 'All', label: 'All Statuses' },
-  { value: 'Pending', label: 'Pending' },
-  { value: 'In Progress', label: 'In Progress' },
-  { value: 'Completed', label: 'Completed' }
+  { value: STATUS.ALL, label: 'All Statuses' },
+  { value: STATUS.PENDING, label: 'Pending' },
+  { value: STATUS.IN_PROGRESS, label: 'In Progress' },
+  { value: STATUS.COMPLETED, label: 'Completed' }
 ];
 
 export const SORT_OPTIONS = [

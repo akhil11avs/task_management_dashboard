@@ -1,6 +1,7 @@
 import { useContext, useMemo } from 'react';
 import { TaskContext } from '../context/TaskContext';
 import TaskCard from './TaskCard';
+import { ROUTES, STATUS, STATUS_OPTIONS } from '../utils/constants';
 
 export default function TaskList({ currentRoute, onEditTask, onDeleteTask }) {
   const {
@@ -13,15 +14,15 @@ export default function TaskList({ currentRoute, onEditTask, onDeleteTask }) {
     setSortBy
   } = useContext(TaskContext);
 
-  const isCompletedRoute = currentRoute === '/completed';
+  const isCompletedRoute = currentRoute === ROUTES.COMPLETED;
 
   const filteredTasks = useMemo(() => {
     return tasks
       .filter(task => {
         if (isCompletedRoute) {
-          return task.status === 'Completed';
+          return task.status === STATUS.COMPLETED;
         }
-        if (statusFilter !== 'All') {
+        if (statusFilter !== STATUS.ALL) {
           return task.status === statusFilter;
         }
         return true;
@@ -66,10 +67,11 @@ export default function TaskList({ currentRoute, onEditTask, onDeleteTask }) {
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
             >
-              <option value="All">All Statuses</option>
-              <option value="Pending">Pending</option>
-              <option value="In Progress">In Progress</option>
-              <option value="Completed">Completed</option>
+              {STATUS_OPTIONS.map(option => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
             </select>
           </div>
         )}

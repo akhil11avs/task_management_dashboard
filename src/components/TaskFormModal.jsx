@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext, useCallback } from 'react';
 import { TaskContext } from '../context/TaskContext';
+import { STATUS, STATUS_OPTIONS } from '../utils/constants';
 
 export default function TaskFormModal({ isOpen, onClose, taskToEdit }) {
   const { addTask, updateTask } = useContext(TaskContext);
@@ -7,7 +8,7 @@ export default function TaskFormModal({ isOpen, onClose, taskToEdit }) {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    status: 'Pending',
+    status: STATUS.PENDING,
     dueDate: ''
   });
 
@@ -26,13 +27,15 @@ export default function TaskFormModal({ isOpen, onClose, taskToEdit }) {
       setFormData({
         title: '',
         description: '',
-        status: 'Pending',
+        status: STATUS.PENDING,
         dueDate: ''
       });
     }
     setErrors({});
     setTouched({});
-  }, [taskToEdit, isOpen]);
+  }, [taskToEdit,
+
+  ]);
 
   const validate = useCallback(() => {
     const newErrors = {};
@@ -61,7 +64,6 @@ export default function TaskFormModal({ isOpen, onClose, taskToEdit }) {
     e.preventDefault();
     setTouched({ title: true, dueDate: true });
 
-    // Validate using latest form data
     const runValidation = () => {
       const newErrors = {};
       if (!formData.title.trim()) {
@@ -141,9 +143,11 @@ export default function TaskFormModal({ isOpen, onClose, taskToEdit }) {
               value={formData.status}
               onChange={handleChange}
             >
-              <option value="Pending">Pending</option>
-              <option value="In Progress">In Progress</option>
-              <option value="Completed">Completed</option>
+              {STATUS_OPTIONS.map(option => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
             </select>
           </div>
 

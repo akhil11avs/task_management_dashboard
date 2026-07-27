@@ -1,4 +1,5 @@
-import React, { createContext, useState, useEffect, useMemo } from 'react';
+import { createContext, useState, useEffect, useMemo } from 'react';
+import { toast } from 'react-toastify';
 
 export const TaskContext = createContext();
 
@@ -72,14 +73,17 @@ export function TaskProvider({ children }) {
       createdAt: new Date().toISOString()
     };
     setTasks(prev => [newTask, ...prev]);
+    toast.success('Task created successfully!');
   };
 
   const updateTask = (updatedTask) => {
     setTasks(prev => prev.map(task => task.id === updatedTask.id ? updatedTask : task));
+    toast.success('Task updated successfully!');
   };
 
   const deleteTask = (id) => {
     setTasks(prev => prev.filter(task => task.id !== id));
+    toast.success('Task deleted successfully!');
   };
 
   const summary = useMemo(() => {
